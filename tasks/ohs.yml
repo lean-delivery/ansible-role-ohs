@@ -1,0 +1,86 @@
+---
+
+- name: "Create ohs user"
+  user:
+    name: "{{ ohs_user }}"
+    state: present
+    home: "/home/{{ ohs_user }}"
+    createhome: True
+  become: True
+
+- name: "Check oracle inventory requirements"
+  include_tasks: "oraInst/checkOraInst.yml"
+
+- name: "Adding selinux support"
+  include_tasks: selinux_support.yml
+
+- name: "Check swapfile"
+  stat:
+    path: "{{ swapfile_path }}"
+  register: swapfile
+  tags:
+    - configure_swapfile
+    - configure_system
+    - prepare_for_install
+
+- include_tasks: "swap.yml"
+  when: not swapfile.stat.exists
+
+- name: "Create ohs directories (base and install)"
+  file:
+    owner: "{{ ohs_user }}"
+    group: "{{ install_group }}"
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - "{{ base_root }}/oracle"
+    - "{{ base_root }}/install"
+  become: True
+
+- name: "Download and extract archive"
+  unarchive:
+    src: "{{ ohs_install_archive }}"
+    dest: "{{ base_root }}/install"
+    remote_src: True
+  become: True
+
+- name: "Create silent install file for OHS"
+  template:
+  args:
+    src: "webtier.rsp.j2"
+    dest: "{{ base_root }}/install/webtier.rsp"
+  become: True
+
+- name: "Install OHS"
+  command: "{{ base_root }}/install/Disk1/runInstaller -silent
+             -waitforcompletion responseFile
+             {{ base_root }}/install/webtier.rsp -invPtrLoc {{ ora_inst }}"
+  register: ohs_install
+  become: True
+  become_user: "{{ ohs_user }}"
+  failed_when: "'The installation of Oracle AS Common Toplevel Component, Oracle WebTier and
+                Utilities CD completed successfully.' not in ohs_install.stdout_lines"
+
+- name: "Check OHS home page availability"
+  uri:
+    url: "http://{{ ansible_hostname }}:{{ ohs_port }}"
+    method: GET
+    return_content: True
+  register: ohs_host
+  until: ohs_host.status == 200
+  retries: 10
+  delay: 5
+
+- name: "Create OHS init script"
+  template:
+    src: "ohs_init.j2"
+    dest: "/etc/init.d/{{ ohs_service }}"
+    mode: 0755
+  become: True
+
+- name: "Clean up {{ base_root }}/install"
+  file:
+    state: absent
+    path: "{{ base_root }}/install"
+  become: True

@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: ohs
+      ohs_install_archive: "{{ lookup('env','STORAGE_EPC') }}/oracle-commerce-suite/web-servers/ohs/ofm_webtier_linux_11.1.1.7.0_64_disk1_1of1.zip"
+      docker_play: True

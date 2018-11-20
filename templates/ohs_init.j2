@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# {{ ohs_service }} Runs ohs instances
+#
+
+SERVICE={{ ohs_service }}
+USER={{ ohs_user }}
+OHS_DIR={{ instance_home }}/bin
+
+case "$1" in
+    'start')
+	su - $USER -c "$OHS_DIR/opmnctl startall"
+        ;;
+    'stop')
+	su - $USER -c "$OHS_DIR/opmnctl stopall"
+        ;;
+    'restart')
+	su - $USER -c "$OHS_DIR/opmnctl stopall"
+	su - $USER -c "$OHS_DIR/opmnctl startall"
+	;;
+esac

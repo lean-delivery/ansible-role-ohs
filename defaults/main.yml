@@ -1,0 +1,49 @@
+---
+# defaults file for ohs
+
+# OHS installation archive path
+ohs_install_archive: http://example.com/ofm_webtier_linux_11.1.1.7.0_64_disk1_1of1.zip
+
+# Base directory path for OHS installation
+base_root: "/opt"
+
+# OHS instance name
+instance_name: "instance1"
+# OHS component name
+ohs_component_name: "ohs1"
+
+# Run ohs on behalf of user
+ohs_user: "oracle"
+
+# Service name
+ohs_service: "ohs"
+
+# Oracle middleware home
+middleware_home: "{{ base_root }}/oracle/mw"
+
+# Oracle OHS home dir
+ohs_oracle_home: "{{ middleware_home }}/Oracle_WT1"
+
+# Oracle OHS instance home
+instance_home: "{{ ohs_oracle_home }}/instances/{{ instance_name }}"
+
+# OHS port number
+ohs_port: 7777
+
+# swap vars
+swapfile_path: "/swapfile"
+# dd block size to be copied for one time
+swapfile_bs_size_mb: "1"
+# set default `count=` value for `dd` for copies only this number of blocks
+swapfile_count: "{{ 16384 if ansible_memtotal_mb > 10240 else (ansible_memtotal_mb * 1.5)|
+                  round|int if ansible_memtotal_mb > 2048 else 8192 }}"
+
+# For Oracle Universal Installer
+install_group: "oinstall"
+# Oracke inventory directory
+inventory_directory: "{{ base_root }}/oraInventory"
+# Oracle inventory and installation group location file
+ora_inst: "/etc/oraInst.loc"
+
+# To pass gitlab-ci with docker. Due to issue with swap unmount during docker container deletion
+docker_play: False

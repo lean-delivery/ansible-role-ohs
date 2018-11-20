@@ -1,0 +1,22 @@
+---
+
+- name: "Read {{ ora_inst }}"
+  slurp:
+    src: "{{ ora_inst }}"
+  register: ora_inst_encoded_content
+
+- name: "Define decoded variable"
+  set_fact:
+    ora_inst_content: "{{ ora_inst_encoded_content| b64decode }}"
+
+- name: "Get value of install_group"
+  set_fact:
+    install_group: "{{ item.split('=').1 }}"
+  loop: "{{ ora_inst_content.splitlines() }}"
+  when: item.split('=').0 == "inst_group"
+
+- name: "Get value of inventory_loc"
+  set_fact:
+    inventory_directory: "{{ item.split('=').1 }}"
+  loop: "{{ ora_inst_content.splitlines() }}"
+  when: item.split('=').0 == "inventory_loc"
