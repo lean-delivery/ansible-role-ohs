@@ -1,5 +1,8 @@
-Role Name
+ansible-role-ohs
 =========
+
+[![Build Status](https://travis-ci.org/lean-delivery/ansible-role-ohs.svg?branch=develop)](https://travis-ci.org/lean-delivery/ansible-role-ohs) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 
 ## Summary
 
