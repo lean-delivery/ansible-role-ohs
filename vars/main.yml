@@ -1,0 +1,27 @@
+---
+# vars file for ohs
+
+# Packages for python for Ansible to support selinux
+selinux_package: libselinux-python
+# Packages for selinux configuration for Ansible
+selinux_enabled_packages:
+  - policycoreutils-python
+  - libsemanage-python
+
+# Required packages for OHS installation
+required_packages:
+  - unzip
+  - binutils
+  - libgcc
+  - libstdc++
+  - libstdc++-devel
+  - sysstat
+  - gcc
+  - gcc-c++
+  - make
+  - glibc
+  - glibc-devel
+  - libaio
+  - libaio-devel
+  - compat-libcap1
+  - compat-libstdc++-33
