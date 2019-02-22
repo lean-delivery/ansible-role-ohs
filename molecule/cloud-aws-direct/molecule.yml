@@ -21,6 +21,10 @@ platforms:
       - default
     wait_timeout: 1800
     ssh_user: centos
+    volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 25
     groups:
      - rhel_family
 provisioner:
