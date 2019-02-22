@@ -27,6 +27,8 @@ ohs_oracle_home: "{{ middleware_home }}/Oracle_WT1"
 # Oracle OHS instance home
 instance_home: "{{ ohs_oracle_home }}/instances/{{ instance_name }}"
 
+# OHS hostname
+ohs_hostname: "{{ ansible_fqdn }}"
 # OHS port number
 ohs_port: 7777
 
