@@ -6,6 +6,9 @@
     path: "/etc/init.d/{{ ohs_service }}"
   register: installation
 
+- debug:
+    msg: "{{ swapfile_count }}"
+
 - name: "Install required packages"
   package:
     name: "{{ required_packages }}"

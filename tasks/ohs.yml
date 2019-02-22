@@ -14,17 +14,9 @@
 - name: "Adding selinux support"
   include_tasks: selinux_support.yml
 
-- name: "Check swapfile"
-  stat:
-    path: "{{ swapfile_path }}"
-  register: swapfile
-  tags:
-    - configure_swapfile
-    - configure_system
-    - prepare_for_install
-
-- include_tasks: "swap.yml"
-  when: not swapfile.stat.exists
+- name: "Create swap file"
+  include_tasks: "swap.yml"
+  when: '(swapfile_count | int - ansible_swaptotal_mb | int) > 2'
 
 - name: "Create ohs directories (base and install)"
   file:
