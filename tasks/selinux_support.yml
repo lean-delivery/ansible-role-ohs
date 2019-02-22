@@ -4,13 +4,16 @@
   package:
     name: "{{ selinux_package }}"
     state: present
+  register: package_install
+  until: package_install is succeeded
   become: True
 
 - name: "Install ansible selinux configure libraries"
   package:
-    name: "{{ item }}"
+    name: "{{ selinux_enabled_packages }}"
     state: present
-  loop: "{{ selinux_enabled_packages }}"
+  register: package_install
+  until: package_install is succeeded
   become: True
   when: ansible_selinux.status == "enabled"
 

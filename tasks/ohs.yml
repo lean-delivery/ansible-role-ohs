@@ -56,6 +56,8 @@
   command: "{{ base_root }}/install/Disk1/runInstaller -silent
              -waitforcompletion responseFile
              {{ base_root }}/install/webtier.rsp -invPtrLoc {{ ora_inst }}"
+  args:
+    creates: "{{ ohs_oracle_home }}"
   register: ohs_install
   become: True
   become_user: "{{ ohs_user }}"

@@ -10,6 +10,8 @@
   package:
     name: "{{ required_packages }}"
     state: present
+  register: package_install
+  until: package_install is succeeded
   become: True
   when: not installation.stat.exists
 
