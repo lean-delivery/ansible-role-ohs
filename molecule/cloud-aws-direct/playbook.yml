@@ -4,3 +4,4 @@
   roles:
     - role: ansible-role-ohs
       ohs_install_archive: "{{ lookup('env','STORAGE_AWS') }}/oracle-commerce-suite/web-servers/ohs/ofm_webtier_linux_11.1.1.7.0_64_disk1_1of1.zip"
+      swapfile_count: 2096

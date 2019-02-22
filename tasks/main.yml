@@ -20,6 +20,3 @@
 
 - include_tasks: "ohs.yml"
   when: not installation.stat.exists
-
-- include_tasks: "swap_unmount.yml"
-  when: docker_play
