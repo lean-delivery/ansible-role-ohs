@@ -44,7 +44,7 @@
         volumes:
           - device_name: /dev/sda1
             volume_type: gp2
-            volume_size: 25
+            volume_size: 40
         count_tag:
           instance: '{{ item.name }}'
       register: server
