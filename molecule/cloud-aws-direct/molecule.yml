@@ -21,17 +21,13 @@ platforms:
       - default
     wait_timeout: 1800
     ssh_user: centos
-    volumes:
-      - device_name: /dev/xvda
-        volume_type: gp2
-        volume_size: 25
     groups:
      - rhel_family
 provisioner:
   name: ansible
   log: True
   playbooks:
-    create: ../resources/provisioning/AWS/create.yml
+    create: ../resources/create.yml
     prepare: ../resources/provisioning/AWS/prepare.yml
     destroy: ../resources/provisioning/AWS/destroy.yml
   lint:
