@@ -10,9 +10,7 @@
     msg: "{{ swapfile_count }}"
 
 - debug:
-    msg: "{{ item.mount }}"
-  loop:
-    - "{{ ansible_mounts }}"
+    msg: "{{ ansible_facts }}"
 
 - name: "Install required packages"
   package:
