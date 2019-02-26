@@ -9,7 +9,8 @@
 - debug:
     msg: "{{ swapfile_count }}"
 
-- debug: msg="{{ item.mount }}"
+- debug:
+    msg: "{{ item.mount }}"
   loop:
     - "{{ ansible_mounts }}"
 
