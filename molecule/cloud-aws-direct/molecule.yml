@@ -12,7 +12,7 @@ lint:
 platforms:
   - name: test-aws-centos6-ohs
     image: ami-1585c46a
-    instance_type: m4.large
+    instance_type: m3.large
     region: us-east-1
     vpc_subnet_id: subnet-05a2ef2b767afec50
     assign_public_ip: False
@@ -27,7 +27,7 @@ provisioner:
   name: ansible
   log: True
   playbooks:
-    create: ../resources/create.yml
+    create: ../resources/provisioning/AWS/create.yml
     prepare: ../resources/provisioning/AWS/prepare.yml
     destroy: ../resources/provisioning/AWS/destroy.yml
   lint:

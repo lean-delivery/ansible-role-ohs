@@ -6,14 +6,6 @@
     path: "/etc/init.d/{{ ohs_service }}"
   register: installation
 
-- debug:
-    msg: "{{ ansible_facts }}"
-
-- name: "Disk space"
-  command: "df -h"
-  tags:
-    - skip_ansible_lint
-
 - name: "Install required packages"
   package:
     name: "{{ required_packages }}"
