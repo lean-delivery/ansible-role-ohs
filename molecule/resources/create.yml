@@ -42,9 +42,10 @@
         assign_public_ip: '{{ item.assign_public_ip | default(True) }}'
         exact_count: 1
         volumes:
-          - device_name: /dev/sda
+          - device_name: /dev/sda1
             volume_type: gp2
-            volume_size: 40
+            volume_size: 100
+            delete_on_termination: True
         count_tag:
           instance: '{{ item.name }}'
       register: server
