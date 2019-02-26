@@ -1,0 +1,77 @@
+---
+- name: Prepare Ubuntu / Debian
+  hosts: debian_family
+  gather_facts: False
+  tasks:
+    - name: Workaround for Ubuntu/Debian images
+      raw: |
+        apt-get update
+      become: True
+      changed_when: False
+
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt install -y python-minimal python-zipstream)
+      become: True
+      changed_when: False
+      register: update_result
+      retries: 10
+      delay: 5
+      until: update_result.rc == 0
+
+- name: Prepare RHEL
+  hosts: rhel_family
+  gather_facts: False
+  tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (yum install -y python2 python-simplejson)
+      become: True
+      changed_when: False
+      register: update_result
+      retries: 10
+      delay: 5
+      until: update_result.rc == 0
+
+    - name: Gathering AWS facts
+      ec2_metadata_facts:
+      ignore_errors: yes
+
+    - name: Gather facts
+      setup:
+
+    - name: Workaround for AWS
+      block:
+        - name: Install modules
+          package:
+            name:
+              - epel-release
+              - cloud-init
+              - dracut-modules-growroot
+            state: present
+
+        - name: Rebuild all initramfs images
+          shell: rpm -qa kernel | sed 's/^kernel-//' | xargs -I {} dracut -f /boot/initramfs-{}.img {}
+          args:
+            warn: False
+          register: extend_partition
+
+        - block:
+            - name: Restart server
+              shell: sleep 2 && shutdown -r now "Ansible restart"
+
+            - name: Wait for server to restart
+              wait_for_connection:
+                delay: 10
+                timeout: 360
+
+            - name: Wait for the server to finish rebooting
+              wait_for:
+                host: "{{ public_hostname }}"
+                search_regex: SSH
+                port: 22
+                timeout: 320
+              vars:
+                public_hostname: "{{ ansible_ec2_public_hostname }}"
+          when: extend_partition is changed
+
+      become: true
+      when: ansible_distribution_major_version == '6' and ansible_ec2_instance_type is defined
