@@ -40,7 +40,7 @@
         wait: True
         wait_timeout: '{{ item.wait_timeout | default(600) }}'
         volumes:
-          - device_name: /dev/sda1
+          - device_name: xvda
             volume_type: gp2
             volume_size: 50
             delete_on_termination: True
