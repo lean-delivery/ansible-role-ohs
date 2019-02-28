@@ -46,7 +46,6 @@
               - epel-release
               - cloud-init
               - dracut
-              - cloud-utils-growpart
             state: present
 
         - name: Rebuild all initramfs images
