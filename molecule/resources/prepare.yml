@@ -46,11 +46,12 @@
               - epel-release
               - cloud-init
               - dracut
+              - cloud-utils-growpart
             state: present
 
         - name: Rebuild all initramfs images
           # shell: rpm -qa kernel | sed 's/^kernel-//' | xargs -I {} dracut -f /boot/initramfs-{}.img {}
-          shell: dracut -f -v
+          shell: growpart /dev/xdva 1
           args:
             warn: False
           register: extend_partition
