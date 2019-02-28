@@ -41,12 +41,12 @@
     - name: Workaround for AWS
       block:
         - name: Install modules
-          package:
+          yum:
             name:
               - epel-release
               - cloud-init
               - dracut
-              - dracut-modules-growroot
+              - http://download-ib01.fedoraproject.org/pub/epel/6/x86_64/Packages/d/dracut-modules-growroot-0.20-2.el6.noarch.rpm
             state: present
 
         - name: Rebuild all initramfs images
