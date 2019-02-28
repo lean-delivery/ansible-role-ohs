@@ -49,7 +49,8 @@
             state: present
 
         - name: Rebuild all initramfs images
-          shell: rpm -qa kernel | sed 's/^kernel-//' | xargs -I {} dracut -f /boot/initramfs-{}.img {}
+          # shell: rpm -qa kernel | sed 's/^kernel-//' | xargs -I {} dracut -f /boot/initramfs-{}.img {}
+          shell: dracut -f -v
           args:
             warn: False
           register: extend_partition
