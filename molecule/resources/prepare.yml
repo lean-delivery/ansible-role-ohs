@@ -40,14 +40,20 @@
 
     - name: Workaround for AWS
       block:
+        - name: 'Enable EPEL repository'
+          yum:
+            name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-\
+              {{ ansible_distribution_major_version }}.noarch.rpm"
+            state: 'present'
+          register: status
+          until: status is succeeded
+
         - name: Install modules
           yum:
             name:
-              - epel-release
               - cloud-init
               - dracut
-              - http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus/noarch/RPMS.classic//cloud-utils-growpart-0.31-alt1.noarch.rpm
-              - http://download-ib01.fedoraproject.org/pub/epel/6/x86_64/Packages/d/dracut-modules-growroot-0.20-2.el6.noarch.rpm
+              - dracut-modules-growroot
             state: present
 
         - name: Rebuild all initramfs images
