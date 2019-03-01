@@ -24,7 +24,7 @@ Ansible lint:
   tags:
     - aws
 
-.Docker ohs:
+Docker ohs:
   stage: deployment test
   script:
     - molecule test -s default
