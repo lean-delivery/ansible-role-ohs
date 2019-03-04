@@ -32,53 +32,53 @@ Role Variables
   default `http://example.com/ofm_webtier_linux_11.1.1.7.0_64_disk1_1of1.zip`
 
 - `base_root` Base directory path for OHS installation  
-  default: `"/opt"`
+  default: `'/opt'`
 
 - `instance_name` OHS instance name  
-  default: `"instance1"`
+  default: `'instance1'`
 
 - `ohs_component_name` OHS component name  
-  default: `"ohs1"`
+  default: `'ohs1'`
 
 - `ohs_user` Run ohs on behalf of user  
-  default: `"oracle"`
+  default: `'oracle'`
 
 - `ohs_service` Service name  
-  default: `"ohs"`
+  default: `'ohs'`
 
 - `middleware_home` Oracle middleware home  
-  default: `"{{ base_root }}/oracle/mw"`
+  default: `'{{ base_root }}/oracle/mw'`
 
 - `ohs_oracle_home` Oracle OHS home dir  
-  default: `"{{ middleware_home }}/Oracle_WT1"`
+  default: `'{{ middleware_home }}/Oracle_WT1'`
 
 - `instance_home` Oracle OHS instance home  
-  default `"{{ ohs_oracle_home }}/instances/{{ instance_name }}"`
+  default `'{{ ohs_oracle_home }}/instances/{{ instance_name }}'`
 
 - `ohs_hostname` OHS hostname  
-  default: `"{{ ansible_fqdn }}"`
+  default: `'{{ ansible_fqdn }}'`
 
 - `ohs_port` OHS port number  
   default: `7777`
 
 - `swapfile_path` swapfile  
-  default: `"/swapfile"`
+  default: `'/swapfile'`
 
 - `swapfile_bs_size_mb` dd block size to be copied for one time  
-  default: `"1"`
+  default: `'1'`
 
 - `swapfile_count` set default `count=` value for `dd` for copies only this number of blocks  
   default: `{{ 16384 if ansible_memtotal_mb > 10240 else (ansible_memtotal_mb * 1.5) |
             round|int if ansible_memtotal_mb > 2048 else 8192 }}`
 
 - `install_group` Oracle Universal Installer group  
-  default: `"oinstall"`
+  default: `'oinstall'`
 
 - `inventory_directory` Oracke inventory directory  
-  default: `"{{ base_root }}/oraInventory"`
+  default: `'{{ base_root }}/oraInventory'`
 
 - `ora_inst` Oracle inventory and installation group location file  
-  default: `"/etc/oraInst.loc"`
+  default: `'/etc/oraInst.loc'`
 
 SELinux
 ------------
