@@ -10,7 +10,7 @@
       {{ lookup('env','MOLECULE_PROJECT_DIRECTORY').split('/')[-1] }}_\
       {{ lookup('env','MOLECULE_SCENARIO_NAME') }}"
     keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
-    ec2_user_data: "{{ lookup('template', 'volume') }}"
+    ec2_user_data: "{{ lookup('file', 'volume') }}"
 
   tasks:
     - name: Create keypair
