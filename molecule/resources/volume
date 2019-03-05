@@ -1,4 +1,4 @@
 #!/bin/bash
-sudo apt install cloud-utils
+sudo yum -y install cloud-utils
 sudo growpart /dev/xvda 1
 sudo resize2fs /dev/xvda1
