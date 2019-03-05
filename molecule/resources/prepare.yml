@@ -31,9 +31,9 @@
       delay: 5
       until: update_result.rc == 0
 
-    # - name: Expand volume
-    #   shell: resize2fs /dev/sda1
-    #   become: True
+    - name: Expand volume
+      shell: resize2fs /dev/xvda1
+      become: True
 
     - name: Debug volume
       shell: df -h
