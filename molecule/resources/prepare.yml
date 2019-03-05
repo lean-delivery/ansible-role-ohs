@@ -31,55 +31,10 @@
       delay: 5
       until: update_result.rc == 0
 
-    - name: Gathering AWS facts
-      ec2_metadata_facts:
-      ignore_errors: yes
+    - name: Expand volume
+      shell: resize2fs /dev/sda1
+      become: True
 
-    - name: Gather facts
-      setup:
-
-    - name: Workaround for AWS
-      block:
-        - name: 'Enable EPEL repository'
-          yum:
-            name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-\
-              {{ ansible_distribution_major_version }}.noarch.rpm"
-            state: 'present'
-          register: status
-          until: status is succeeded
-
-        - name: Install modules
-          yum:
-            name:
-              - cloud-init
-              - dracut
-              - dracut-modules-growroot
-            state: present
-
-        - name: Rebuild all initramfs images
-          shell: rpm -qa kernel | sed 's/^kernel-//'  | xargs -I {} dracut -f /boot/initramfs-{}.img {}
-          args:
-            warn: False
-          register: extend_partition
-
-        - block:
-            - name: Restart server
-              shell: sleep 2 && shutdown -r now "Ansible restart"
-
-            - name: Wait for server to restart
-              wait_for_connection:
-                delay: 10
-                timeout: 360
-
-            - name: Wait for the server to finish rebooting
-              wait_for:
-                host: "{{ public_hostname }}"
-                search_regex: SSH
-                port: 22
-                timeout: 320
-              vars:
-                public_hostname: "{{ ansible_ec2_hostname }}"
-          when: extend_partition is changed
-
-      become: true
-      when: ansible_distribution_major_version == '6' and ansible_ec2_instance_type is defined
+    - name: Debug volume
+      shell: df -h
+      become: True
