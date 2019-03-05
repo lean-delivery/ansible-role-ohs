@@ -31,19 +31,21 @@
       delay: 5
       until: update_result.rc == 0
 
-    - name: Restart server
-      shell: sleep 2 && shutdown -r now "Ansible restart"
+    - block:
+      - name: Restart server
+        shell: sleep 2 && shutdown -r now "Ansible restart"
 
-    - name: Wait for server to restart
-      wait_for_connection:
-        delay: 10
-        timeout: 360
+      - name: Wait for server to restart
+        wait_for_connection:
+          delay: 10
+          timeout: 360
 
-    - name: Wait for the server to finish rebooting
-      wait_for:
-        host: "{{ public_hostname }}"
-        search_regex: SSH
-        port: 22
-        timeout: 320
-      vars:
-        public_hostname: "{{ ansible_ec2_public_hostname }}"
+      - name: Wait for the server to finish rebooting
+        wait_for:
+          host: "{{ public_hostname }}"
+          search_regex: SSH
+          port: 22
+          timeout: 320
+        vars:
+          public_hostname: "{{ ansible_ec2_public_hostname }}"
+      become: True
