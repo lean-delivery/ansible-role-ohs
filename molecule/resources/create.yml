@@ -10,6 +10,7 @@
       {{ lookup('env','MOLECULE_PROJECT_DIRECTORY').split('/')[-1] }}_\
       {{ lookup('env','MOLECULE_SCENARIO_NAME') }}"
     keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
+    ec2_user_data: "{{ lookup('template', 'volume') }}"
 
   tasks:
     - name: Create keypair
@@ -48,6 +49,7 @@
         exact_count: 1
         count_tag:
           instance: '{{ item.name }}'
+        user_data: "{{ ec2_user_data }}"
       register: server
       loop: '{{ molecule_yml.platforms }}'
       async: 7200

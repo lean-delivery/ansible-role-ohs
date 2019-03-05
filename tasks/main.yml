@@ -4,6 +4,14 @@
 - debug:
     msg: '{{ ansible_facts }}'
 
+- name: Debug volume
+  shell: df -h
+  register: out
+  become: True
+
+- debug:
+    msg: '{{ out }}'
+
 - name: "Check OHS installation"
   stat:
     path: '/etc/init.d/{{ ohs_service }}'
