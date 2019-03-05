@@ -37,4 +37,8 @@
 
     - name: Debug volume
       shell: df -h
+      register: out
       become: True
+
+    - debug:
+        msg: '{{ out }}'
