@@ -54,5 +54,5 @@
           port: 22
           timeout: 320
         vars:
-          public_hostname: "{{ ansible_ec2_public_hostname }}"
+          public_hostname: "{{ ansible_ec2_hostname }}"
       become: True
