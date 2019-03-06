@@ -31,6 +31,13 @@
       delay: 5
       until: update_result.rc == 0
 
+    - name: Gathering AWS facts
+      ec2_metadata_facts:
+      ignore_errors: yes
+
+    - name: Gather facts
+      setup:
+
     - block:
       - name: Restart server
         shell: sleep 2 && shutdown -r now "Ansible restart"
