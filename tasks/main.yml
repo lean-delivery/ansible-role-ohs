@@ -8,16 +8,6 @@
   pause:
     minutes: 5
 
-- name: Debug volume
-  shell: df -h
-  register: out
-  become: True
-  tags:
-    - skip_ansible_lint
-
-- debug:
-    msg: '{{ out }}'
-
 - name: "Check OHS installation"
   stat:
     path: '/etc/init.d/{{ ohs_service }}'
