@@ -12,7 +12,8 @@
     keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
     ec2_user_data: |
                    #!/bin/bash
-                   sudo yum -y install epel-release cloud-utils cloud-utils-growpart
+                   sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+                   sudo yum -y cloud-utils cloud-utils-growpart
                    lsblk
                    df -h
                    sudo growpart /dev/xvda 1
