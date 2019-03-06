@@ -19,6 +19,8 @@
                    lsblk
                    df -h
                    sudo resize2fs /dev/xvda1
+                   sudo yum install xfsprogs
+                   sudo xfs_growfs -d /
                    df -h
 
   tasks:
