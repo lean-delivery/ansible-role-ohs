@@ -6,7 +6,7 @@
 
 - name: Pause
   pause:
-    minutes: 10
+    minutes: 5
 
 - name: Debug volume
   shell: df -h

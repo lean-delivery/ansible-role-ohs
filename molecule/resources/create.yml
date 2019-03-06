@@ -12,9 +12,13 @@
     keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
     ec2_user_data: |
                    #!/bin/bash
-                   sudo yum -y install cloud-utils
+                   sudo yum -y install epel-release cloud-utils
+                   lsblk
+                   df -h
                    sudo growpart /dev/xvda 1
                    sudo resize2fs /dev/xvda1
+                   lsblk
+                   df -h
 
   tasks:
     - name: Create keypair
