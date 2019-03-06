@@ -90,7 +90,7 @@ Administration Console and Enterprise Manager
 
 Validate Administration Console and Enterprise Manager through both Oracle HTTP Server instances using the following URL:
   ``` 
-  https://hostname:7777 
+  http://hostname:7777 
   ```
 
 Example Playbook

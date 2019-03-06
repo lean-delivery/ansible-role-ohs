@@ -1,13 +1,6 @@
 ---
 # tasks file for ohs
 
-- debug:
-    msg: '{{ ansible_facts }}'
-
-- name: Pause
-  pause:
-    minutes: 5
-
 - name: "Check OHS installation"
   stat:
     path: '/etc/init.d/{{ ohs_service }}'

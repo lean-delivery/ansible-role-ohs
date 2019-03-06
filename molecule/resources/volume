@@ -1,3 +1,0 @@
-#!/bin/bash
-sudo yum -y install epel-release cloud-init dracut dracut-modules-growroot
-sudo rpm -qa kernel | sed 's/^kernel-//' | xargs -I {} dracut -f /boot/initramfs-{}.img {}

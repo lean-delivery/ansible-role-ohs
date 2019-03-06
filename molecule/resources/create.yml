@@ -10,18 +10,7 @@
       {{ lookup('env','MOLECULE_PROJECT_DIRECTORY').split('/')[-1] }}_\
       {{ lookup('env','MOLECULE_SCENARIO_NAME') }}"
     keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
-    ec2_user_data: |
-                   #!/bin/bash
-                   sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
-                   sudo yum -y install cloud-utils cloud-utils-growpart
-                   lsblk
-                   sudo growpart /dev/xvda 1
-                   lsblk
-                   df -h
-                   sudo resize2fs /dev/xvda1
-                   sudo reboot
-                   lsblk
-                   df -h
+    ec2_user_data: "{{ lookup('file', 'user_data') }}"
 
   tasks:
     - name: Create keypair
