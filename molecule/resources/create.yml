@@ -10,7 +10,11 @@
       {{ lookup('env','MOLECULE_PROJECT_DIRECTORY').split('/')[-1] }}_\
       {{ lookup('env','MOLECULE_SCENARIO_NAME') }}"
     keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
-    ec2_user_data: "{{ lookup('file', 'volume') }}"
+    ec2_user_data: |
+                   #!/bin/bash
+                   sudo yum -y install cloud-utils
+                   sudo growpart /dev/xvda 1
+                   sudo resize2fs /dev/xvda1
 
   tasks:
     - name: Create keypair
