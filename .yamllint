@@ -29,6 +29,3 @@ rules:
     level: warning
   new-lines:
     type: unix
-
-ignore: |
-  molecule
