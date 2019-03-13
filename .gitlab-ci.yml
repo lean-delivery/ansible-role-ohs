@@ -13,7 +13,7 @@ before_script:
 variables:
   GET_SOURCES_ATTEMPTS: "5"
 
-.Ansible lint:
+Ansible lint:
   stage: lint
   before_script:
     - git clone https://github.com/lean-delivery/ansible-lint-rules.git ~/ansible-lint-rules
@@ -24,14 +24,14 @@ variables:
   tags:
     - aws
 
-.Docker ohs:
+Docker ohs:
   stage: deployment test
   script:
     - molecule test -s default
   tags:
     - aws
 
-.AWS ohs:
+AWS ohs:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
@@ -40,7 +40,7 @@ variables:
   tags:
     - aws
 
-EPC ohs:
+.EPC ohs:
   variables:
     EPC_REGION: EPAM-BY2
   stage: deployment test
