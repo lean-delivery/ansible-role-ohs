@@ -3,18 +3,17 @@
 
 - name: "Check OHS installation"
   stat:
-    path: "/etc/init.d/{{ ohs_service }}"
+    path: '/etc/init.d/{{ ohs_service }}'
   register: installation
 
 - name: "Install required packages"
   package:
-    name: "{{ required_packages }}"
+    name: '{{ required_packages }}'
     state: present
+  register: package_install
+  until: package_install is succeeded
   become: True
   when: not installation.stat.exists
 
-- include_tasks: "ohs.yml"
+- include_tasks: ohs.yml
   when: not installation.stat.exists
-
-- include_tasks: "swap_unmount.yml"
-  when: docker_play

@@ -2,11 +2,11 @@
 
 - name: "Check {{ ora_inst }} exists"
   stat:
-    path: "{{ ora_inst }}"
+    path: '{{ ora_inst }}'
   register: ora_file
 
 - name: "Read {{ ora_inst }} content"
-  include_tasks: "readOra.yml"
+  include_tasks: 'readOra.yml'
   when: ora_file.stat.exists
 
 # for ohs role should be created oraInst.loc file because oracle installer failes with exception:
@@ -15,37 +15,37 @@
 # It is recommended that this file (oraInst.loc) be created in /etc directory
 - name: "Create {{ ora_inst }}"
   template:
-    src: "oraInst.loc.j2"
-    dest: "{{ ora_inst }}"
+    src: 'oraInst.loc.j2'
+    dest: '{{ ora_inst }}'
   become: True
   when: not ora_file.stat.exists
 
 - name: "Create oinstall group"
   group:
-    name: "{{ install_group }}"
+    name: '{{ install_group }}'
     state: present
   become: True
   when: not ora_file.stat.exists
 
 - name: "Add {{ ohs_user }} to {{ install_group }}"
   user:
-    name: "{{ ohs_user }}"
-    groups: "{{ install_group }}"
+    name: '{{ ohs_user }}'
+    groups: '{{ install_group }}'
     append: True
   become: True
 
 - name: "Check inventory directory"
   stat:
-    path: "{{ inventory_directory }}"
+    path: '{{ inventory_directory }}'
   register: inventory
 
 # setting permissions 0774 for write access for all users in oinstall group
 - name: "Create inventory directory"
   file:
     state: directory
-    path: "{{ inventory_directory }}"
-    owner: "{{ ohs_user }}"
-    group: "{{ install_group }}"
+    path: '{{ inventory_directory }}'
+    owner: '{{ ohs_user }}'
+    group: '{{ install_group }}'
     mode: 0774
   become: True
   when: not inventory.stat.exists

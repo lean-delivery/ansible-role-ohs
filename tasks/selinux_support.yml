@@ -2,25 +2,28 @@
 
 - name: "Install ansible selinux support library"
   package:
-    name: "{{ selinux_package }}"
+    name: '{{ selinux_package }}'
     state: present
+  register: package_install
+  until: package_install is succeeded
   become: True
 
 - name: "Install ansible selinux configure libraries"
   package:
-    name: "{{ item }}"
+    name: '{{ selinux_enabled_packages }}'
     state: present
-  loop: "{{ selinux_enabled_packages }}"
+  register: package_install
+  until: package_install is succeeded
   become: True
-  when: ansible_selinux.status == "enabled"
+  when: ansible_selinux.status == 'enabled'
 
 - name: "Enable connections to HTTP port"
   seport:
-    ports: "{{ ohs_port }}"
+    ports: '{{ ohs_port }}'
     proto: tcp
     setype: http_port_t
     state: present
   become: True
   when:
-    - ansible_selinux.status == "enabled"
-    - ansible_selinux.mode != "disabled"
+    - ansible_selinux.status == 'enabled'
+    - ansible_selinux.mode != 'disabled'
